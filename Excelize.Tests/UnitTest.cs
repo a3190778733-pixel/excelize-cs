@@ -93,7 +93,22 @@ public class UnitTest
         Assert.Null(Record.Exception(() => f.SaveAs("TestAddChart.xlsx")));
         Assert.Empty(f.Close());
     }
+    [Fact]
+    public void TestMergeCell()
+    {
+        // 创建一个新的 Excel 文件
+        File f = Excelize.NewFile();
 
+        // 合并 Sheet1 的 D3 到 E9
+        Assert.Null(
+            Record.Exception(() =>
+                f.MergeCell("Sheet1", "D3", "E9")
+            )
+        );
+
+        // 关闭文件
+        Assert.Empty(f.Close());
+    }
     [Fact]
     public void TestAddComment()
     {
@@ -976,6 +991,14 @@ public class UnitTest
             })
         );
         RuntimeError err = Assert.Throws<RuntimeError>(() => f.MergeCell("SheetN", "A1", "B2"));
+        Assert.Equal("sheet SheetN does not exist", err.Message);
+        Assert.Null(
+            Record.Exception(() =>
+            {
+                f.UnmergeCell("Sheet1", "D3", "E9");
+            })
+        );
+        err = Assert.Throws<RuntimeError>(() => f.UnmergeCell("SheetN", "A1", "B2"));
         Assert.Equal("sheet SheetN does not exist", err.Message);
         Assert.Null(Record.Exception(() => f.SaveAs("TestMergeCells.xlsx")));
         Assert.Empty(f.Close());
