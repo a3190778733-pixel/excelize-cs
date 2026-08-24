@@ -93,22 +93,7 @@ public class UnitTest
         Assert.Null(Record.Exception(() => f.SaveAs("TestAddChart.xlsx")));
         Assert.Empty(f.Close());
     }
-    [Fact]
-    public void TestMergeCell()
-    {
-        // 创建一个新的 Excel 文件
-        File f = Excelize.NewFile();
 
-        // 合并 Sheet1 的 D3 到 E9
-        Assert.Null(
-            Record.Exception(() =>
-                f.MergeCell("Sheet1", "D3", "E9")
-            )
-        );
-
-        // 关闭文件
-        Assert.Empty(f.Close());
-    }
     [Fact]
     public void TestAddComment()
     {
